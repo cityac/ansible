@@ -24,6 +24,28 @@
     - install
     - core
 
+- name: Add the LLVM GPG key
+  apt_key:
+    url: https://apt.llvm.org/llvm-snapshot.gpg.key
+    state: present
+
+- name: Add the LLVM repository
+  apt_repository:
+    repo: "deb http://apt.llvm.org/{{ ansible_distribution_release }}/ llvm-toolchain-{{ ansible_distribution_release }}-11 main"
+    state: present
+  tags:
+    - install
+    - neovim
+    - core
+
+- name: Update the apt cache
+  apt:
+    update_cache: true
+  tags:
+    - install
+    - neovim
+    - core
+
 - name: Install Clang
   become: true
   apt:

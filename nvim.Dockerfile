@@ -1,5 +1,5 @@
 ARG DEBIAN_FRONTEND=noninteractive
-FROM ubuntu:latest
+FROM ubuntu:jammy
 WORKDIR /usr/local/bin
 RUN apt update && apt install -y software-properties-common && \
     apt-add-repository -y ppa:ansible/ansible && \

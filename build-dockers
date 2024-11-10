@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker build --no-cache . -t new-computer
+# docker build --no-cache . -t new-computer
 docker build . -f nvim.Dockerfile -t nvim-computer

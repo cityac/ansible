@@ -7,40 +7,59 @@
     - node
 
 - name: npmjs prefix
-  shell: mkdir -p ~/.local/.npm-global
+  shell: mkdir -p $HOME/.local/.npm-global
   tags:
-  - install
-  - node
+    - install
+    - node
 
-- name: add npmjs to path
-  shell: PATH=~/.local/.npm-global/bin:$PATH
-  tags:
-  - install
-  - node
+# Simply executing the export PATH command in one task does not retain changes for subsequent tasks. 
+# To apply PATH across multiple tasks, use the environment parameter in Ansible 
+# or update the shell configuration files for permanent changes.
+# - name: add npmjs to path
+#   shell: export PATH=$HOME/.local/.npm-global/bin:$PATH
+#   tags:
+#   - install
+#   - node
 
 - name: npmjs global settings
-  shell: npm config set prefix '~/.local/.npm-global'
+  shell: npm config set prefix '{{ lookup('env', 'HOME') }}/.local/.npm-global'
   tags:
-  - install
-  - node
+    - install
+    - node
 
-- name: npmjs global settings export path in case I don't have dotfiles installed
-  shell: export PATH=~/.local/.npm-global/bin:$PATH
+- name: Print current PATH using shell
+  shell: echo $PATH
+  register: path_output
   tags:
-  - install
-  - node
-  - npm-path
+    - node
+    - debug
+
+- name: Display PATH output
+  debug:
+    msg: "{{ path_output.stdout }}"
+  tags:
+    - node
+    - debug
+
+# - name: npmjs global settings export path in case I don't have dotfiles installed
+#   shell: export PATH=~/.local/.npm-global/bin:$PATH
+#   tags:
+#   - install
+#   - node
+#   - npm-path
 
 - name: Install N
   npm:
     name: n
-    global: yes
+    global: true
   tags:
     - install
     - node
 
 - name: Install correct version of Node
-  shell: n 14
+  shell: $HOME/.local/.npm-global/bin/n 18
+  # environment:
+  #   PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
   tags:
     - install
     - node

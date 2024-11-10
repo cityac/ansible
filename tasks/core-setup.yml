@@ -31,7 +31,7 @@
 
 - name: Add the LLVM repository
   apt_repository:
-    repo: "deb http://apt.llvm.org/{{ ansible_distribution_release }}/ llvm-toolchain-{{ ansible_distribution_release }}-11 main"
+    repo: "deb http://apt.llvm.org/{{ ansible_distribution_release }}/ llvm-toolchain-{{ ansible_distribution_release }}-13 main"
     state: present
   tags:
     - install
@@ -49,20 +49,20 @@
 - name: Install Clang
   become: true
   apt:
-    name: ["clang", "clang-11", "clang-12", "clangd", "clangd-10", "clangd-11", "clangd-12"]
+    name: ["clang", "clang-13", "clang-14", "clang-15","clangd", "clangd-13", "clangd-14", "clangd-15"]
   tags:
     - install
     - neovim
     - core
 
 - name: dconf i3
-  shell: dconf write /org/mate/desktop/session/required-components/windowmanager "'i3'"
+  shell: dbus-launch dconf write /org/mate/desktop/session/required-components/windowmanager "'i3'"
   tags:
     - install
     - core
 
 - name: dconf i3
-  shell: dconf write /org/mate/desktop/background/show-desktop-icons "false"
+  shell: dbus-launch dconf write /org/mate/desktop/background/show-desktop-icons "false"
   tags:
     - install
     - core

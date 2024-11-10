@@ -1,0 +1,23 @@
+- hosts: localhost
+  become: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ lookup('env', 'HOME') }}/.local/.npm-global/bin"
+  vars:
+    source_key: "./.ssh/id_rsa"
+    dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+  pre_tasks:
+    - name: Update the apt cache
+      apt:
+        update_cache: yes
+      tags: 
+        - node
+        - zsh
+  tasks:
+    - import_tasks: tasks/ssh.yml
+    - import_tasks: tasks/nvim-setup.yml
+    - import_tasks: fem_tasks/zsh.yml
+    - import_tasks: fem_tasks/node.yml
+    
+    
+    
+

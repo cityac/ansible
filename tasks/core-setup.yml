@@ -31,7 +31,7 @@
 
 - name: Add the LLVM repository
   apt_repository:
-    repo: "deb http://apt.llvm.org/{{ ansible_distribution_release }}/ llvm-toolchain-{{ ansible_distribution_release }}-13 main"
+    repo: "deb http://apt.llvm.org/{{ ansible_distribution_release }}/ llvm-toolchain-{{ ansible_distribution_release }}-17 main"
     state: present
   tags:
     - install

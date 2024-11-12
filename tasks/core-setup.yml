@@ -1,4 +1,4 @@
-- name: Install System Packages 1 (build-essential, cmake, pkg-config, pthread)
+- name: Install System Packages 1 (build-essential, cmake, pkg-config, pthread, "lib1uv-dev")
   become: true
   apt:
     name: ["build-essential", "cmake", "pkg-config", "libpthread-stubs0-dev"]

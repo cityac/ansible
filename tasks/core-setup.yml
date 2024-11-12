@@ -49,7 +49,7 @@
 - name: Install Clang
   become: true
   apt:
-    name: ["clang", "clang-13", "clang-14", "clang-15","clangd", "clangd-13", "clangd-14", "clangd-15"]
+    name: ["clang", "clang-14", "clang-15","clangd", "clangd-14", "clangd-15"]
   tags:
     - install
     - neovim

@@ -1,6 +1,6 @@
-- name: Install node
+- name: Install node/npm/yarn
   apt: 
-    name: ['nodejs', 'npm']
+    name: ['nodejs', 'npm', 'yarn']
   tags:
     - node
 - name: Install n

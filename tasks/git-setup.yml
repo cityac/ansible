@@ -32,3 +32,9 @@
 
   tags:
   - git-personal
+
+- name: Copy gitconfig -> ubuntu user
+  shell: cp /root/.gitconfig /home/ubuntu/.gitconfig && chmod 600 /home/ubuntu/.gitconfig
+  tags:
+  - git-personal
+

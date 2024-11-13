@@ -12,12 +12,14 @@
     update: yes
     accept_hostkey: yes
     version: master
+    force: yes
   tags:
     - install
     - dotfiles
     - stow
 - name: Stow dotfiles
   shell: cd $HOME/.dotfiles/ && cd $HOME
+  become: true
   tags:
     - install
     - dotfiles

@@ -2,41 +2,33 @@
   git_config:
     name: user.email
     scope: global
-    value: "the.primeagen@gmail.com"
+    value: "aytuganov@@gmail.com"
   tags:
   - git-personal
 - name: Git personal setup name
   git_config:
     name: user.name
     scope: global
-    value: "ThePrimeagen"
+    value: "Stanislav Aituhanov"
   tags:
   - git-personal
-- name: Git Rustin
+
+- name: Git aliases
   git_config:
-    name: user.email
-    scope: global
-    value: "rustin.deeznuts@gmail.com"
+    name: "{{ item.name }}"
+    scope: "{{ item.scope }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { name: 'alias.ci', scope: 'global', value: 'commit' }
+    - { name: 'alias.st', scope: 'global', value: 'status' }
+    - { name: 'alias.br', scope: 'global', value: 'branch' }
+    - { name: 'alias.co', scope: 'global', value: 'checkout' }
+    - { name: 'alias.pushf', scope: 'global', value: 'push --force-with-lease' }
+    - { name: 'alias.amendcommit', scope: 'global', value: '!git add . && git commit --amend --no-edit && git pushf' }
+    - { name: 'alias.resetremote', scope: 'global', value: '!sh -c "git fetch && git reset --hard origin/$1" -'}
+    - { name: 'alias.unstage', scope: 'global', value: 'reset HEAD --' }
+    - { name: 'alias.last', scope: 'global', value: 'log -1 HEAD' }
+    - { name: 'core.editor', scope: 'global', value: 'nvim' }
+
   tags:
-  - git-rustin
-- name: Git personal setup name
-  git_config:
-    name: user.name
-    scope: global
-    value: "RustLover69"
-  tags:
-  - git-rustin
-- name: Netflix
-  git_config:
-    name: user.email
-    scope: global
-    value: "mpaulson@netflix.com"
-  tags:
-  - git-netflix
-- name: Git personal setup name
-  git_config:
-    name: user.name
-    scope: global
-    value: "mpaulson"
-  tags:
-  - git-netflix
+  - git-personal

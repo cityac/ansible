@@ -19,3 +19,4 @@
     - import_tasks: tasks/dotfiles.yml
     - import_tasks: fem_tasks/zsh.yml
     - import_tasks: fem_tasks/node.yml
+    - import_tasks: tasks/git-setup.yml

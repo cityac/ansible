@@ -1,15 +1,16 @@
 FROM ubuntu:jammy AS base
 WORKDIR /usr/local/bin
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y sudo && \
-    apt-get upgrade -y && \
-    apt-get install -y software-properties-common curl git build-essential && \
-    apt-add-repository -y ppa:ansible/ansible && \
-    apt-get update && \
-    apt-get install -y curl git ansible build-essential && \
-    apt-get install -y liblua5.1-dev liblua5.3-dev libluajit-5.1-dev && \
-    apt-get clean autoclean && \
-    apt-get autoremove -y
+RUN sudo apt-get update && sudo apt-get install -y sudo && \
+    sudo apt-get upgrade -y && \
+    sudo apt-get install -y software-properties-common curl git build-essential && \
+    sudo apt-add-repository -y ppa:ansible/ansible && \
+    sudo apt-get update && \
+    sudo apt install ansible-core && \
+    sudo apt-get install -y curl git ansible build-essential && \
+    sudo apt-get install -y liblua5.1-dev liblua5.3-dev libluajit-5.1-dev && \
+    sudo apt-get clean autoclean && \
+    sudo apt-get autoremove -y
 
 # Install Neovim without using the PPA directly
 

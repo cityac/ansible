@@ -11,7 +11,7 @@
   tags:
     - zsh
 - name: Change shell
-  shell: chsh -s 'whick zsh'
+  shell: chsh -s 'which zsh'
   tags:
     - zsh
 - name: Install ohmyzsh

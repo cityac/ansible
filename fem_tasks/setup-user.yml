@@ -1,22 +1,20 @@
-- name: Setup user
-  shell:  sudo usermod -aG sudo  {{ lookup('env', 'LOGNAME') }} && \
-    echo "{{ lookup('env', 'LOGNAME') }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-  tags:
-    - user
-    - neovim
+# - name: Setup user
+#   shell:  sudo usermod -aG sudo  {{ lookup('env', 'LOGNAME') }} && \
+#     echo "{{ lookup('env', 'LOGNAME') }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+#   tags:
+#     - user
+#     - neovim
 
 - name: Print current USER using shell
-  shell: echo $USER
+  shell: echo {{ lookup('env', 'USER') }}
   register: user_output
   tags:
-    - user
-    - debug2
+    - debugger
     - neovim
 
 - name: Display USER output
   debug:
     msg: "{{ user_output.stdout }}"
   tags:
-    - user
-    - debug2
+    - debugger
     - neovim

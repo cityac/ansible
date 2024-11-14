@@ -1,8 +1,8 @@
-- name: Debug LOGUSER and USER and HOME environment variables
+- name: Debug LOGNAME and USER and HOME environment variables
   debug:
     msg:
       - "USER: {{ lookup('env', 'USER') }}"
-      - "LOGUSER: {{ lookup('env', 'LOGUSER') }}"
+      - "LOGNAME: {{ lookup('env', 'LOGNAME') }}"
       - "HOME: {{ lookup('env', 'HOME') }}"
   tags:
     - debugger

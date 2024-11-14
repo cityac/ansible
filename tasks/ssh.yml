@@ -1,12 +1,3 @@
-- name: Debug LOGNAME and USER and HOME environment variables
-  debug:
-    msg:
-      - "USER: {{ lookup('env', 'USER') }}"
-      - "LOGNAME: {{ lookup('env', 'LOGNAME') }}"
-      - "HOME: {{ lookup('env', 'HOME') }}"
-  tags:
-    - debugger
-
 - name: Debug public key path
   debug:
     msg: "Public key path: {{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"

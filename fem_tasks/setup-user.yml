@@ -5,16 +5,40 @@
 #     - user
 #     - neovim
 
-- name: Print current USER using shell
-  shell: echo {{ lookup('env', 'USER') }}
-  register: user_output
-  tags:
-    - debugger
-    - neovim
-
-- name: Display USER output
+- name: Debug LOGNAME and USER and HOME environment variables
   debug:
-    msg: "{{ user_output.stdout }}"
+    msg:
+      # if ansible is running with sudo USER equals "root" otherwise the user who was running ansible-playbook 
+      - "USER: {{ lookup('env', 'USER') }}"
+      # in ansible SUDO_USER always contains the user who was running ansible-playbook
+      - "SUDO_USER: {{ ansible_env.SUDO_USER }}"
+      - "LOGNAME: {{ lookup('env', 'LOGNAME') }}"
+      - "HOME: {{ lookup('env', 'HOME') }}"
   tags:
     - debugger
-    - neovim
+
+# if sudo ansible-playbook
+# ok: [localhost] => {
+#     "msg": [
+#         "USER: root",
+#         "SUDO_USER: ubuntu",
+#         "LOGNAME: root",
+#         "HOME: /root"
+#     ]
+# }
+
+# if ansible-playbook logged user than 
+# ok: [localhost] => {
+#     "msg": [
+#         "USER: ubuntu",
+#         "SUDO_USER: ubuntu",
+#         "LOGNAME: ubuntu",
+#         "HOME: /home/ubuntu"
+#     ]
+# }
+
+- name: Print all environment variables
+  debug:
+    var: ansible_env
+  tags:
+    - debugger

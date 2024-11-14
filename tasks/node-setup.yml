@@ -38,14 +38,14 @@
   register: path_output
   tags:
     - node
-    - debug
+    - debugger
 
 - name: Display PATH output
   debug:
     msg: "{{ path_output.stdout }}"
   tags:
     - node
-    - debug
+    - debugger
 
 # - name: npmjs global settings export path in case I don't have dotfiles installed
 #   shell: export PATH=~/.local/.npm-global/bin:$PATH

@@ -25,7 +25,7 @@
     - { name: 'alias.co', scope: 'global', value: 'checkout' }
     - { name: 'alias.pushf', scope: 'global', value: 'push --force-with-lease' }
     - { name: 'alias.amendcommit', scope: 'global', value: '!git add . && git commit --amend --no-edit && git pushf' }
-    - { name: 'alias.resetremote', scope: 'global', value: '!sh -c "git fetch && git reset --hard origin/$1" -'}
+    - { name: 'alias.resetto', scope: 'global', value: '!sh -c "git fetch && git reset --hard origin/$1" -'}
     - { name: 'alias.unstage', scope: 'global', value: 'reset HEAD --' }
     - { name: 'alias.last', scope: 'global', value: 'log -1 HEAD' }
     - { name: 'core.editor', scope: 'global', value: 'nvim' }
@@ -33,8 +33,8 @@
   tags:
   - git-personal
 
-- name: Copy gitconfig -> {{ lookup('env', 'LOGNAME') }} user
-  shell: sudo cp /root/.gitconfig /home/{{ lookup('env', 'LOGNAME') }}/.gitconfig && sudo chmod 666 /home/{{ lookup('env', 'LOGNAME') }}/.gitconfig
+- name: Copy gitconfig -> {{ ansible_env.SUDO_USER }} user
+  shell: sudo cp /root/.gitconfig /home/{{ ansible_env.SUDO_USER }}/.gitconfig && sudo chmod 666 /home/{{ ansible_env.SUDO_USER }}/.gitconfig
   tags:
   - git-personal
 

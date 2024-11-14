@@ -1,0 +1,5 @@
+- name: Setup user
+  shell:  sudo usermod -aG sudo  {{ lookup('env', 'USER') }} && \
+    echo "{{ lookup('env', 'USER') }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+  tags:
+    - user

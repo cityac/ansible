@@ -13,6 +13,7 @@
         - node
         - zsh
   tasks:
+    - import_tasks: fem-tasks/setup-user.yml
     - import_tasks: tasks/ssh.yml
     - import_tasks: tasks/core-setup.yml
     - import_tasks: tasks/nvim-setup.yml

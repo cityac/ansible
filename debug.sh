@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ansible-playbook run.yml -vvv --ask-vault-pass
+sudo ansible-playbook  run.yml--vault-password-file  .vault -vvv

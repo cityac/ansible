@@ -12,6 +12,12 @@
     - install
     - node
 
+- name: nvim local state
+  shell: mkdir -p /home/ubuntu/.local/state
+  tags:
+    - install
+    - node
+
 # Simply executing the export PATH command in one task does not retain changes for subsequent tasks. 
 # To apply PATH across multiple tasks, use the environment parameter in Ansible 
 # or update the shell configuration files for permanent changes.

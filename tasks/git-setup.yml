@@ -33,8 +33,8 @@
   tags:
   - git-personal
 
-- name: Copy gitconfig -> ubuntu user
-  shell: sudo cp /root/.gitconfig /home/ubuntu/.gitconfig && sudo chmod 666 /home/ubuntu/.gitconfig
+- name: Copy gitconfig -> {{ lookup('env', 'USER') }} user
+  shell: sudo cp /root/.gitconfig /home/{{ lookup('env', 'USER') }}/.gitconfig && sudo chmod 666 /home/{{ lookup('env', 'USER') }}/.gitconfig
   tags:
   - git-personal
 

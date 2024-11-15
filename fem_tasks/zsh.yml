@@ -10,20 +10,51 @@
     state: present
   tags:
     - zsh
-- name: Change shell
-  shell: chsh -s 'which zsh'
+
+- name: Get the path of zsh
+  ansible.builtin.set_fact:
+    zsh_path: "{{ lookup('pipe', 'which zsh') }}"
+  tags:
+    - zsh
+- name: Debug the zsh_path variable
+  ansible.builtin.debug:
+    msg: "zsh_path is {{ zsh_path }}"
+  tags:
+    - zsh
+
+- name: Change the shell for the user
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: "{{ zsh_path }}"
   become: true
   tags:
     - zsh
+
+
+# - name: Change shell
+#   shell: sudo chsh -s 'which zsh'
+#   become: true
+#   tags:
+#     - zsh
 - name: Uninstall shell
-  shell: rm -rf /root/.oh-my-zsh
+  shell: rm -rf .oh-my-zsh
+  tags:
+    - zsh
+
+
+- name: Remove existing .oh-my-zsh directory if it exists
+  ansible.builtin.file:
+    path: /root/.oh-my-zsh
+    state: absent
   become: true
   tags:
     - zsh
+
 - name: Install ohmyzsh
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   tags:
     - zsh
+  
 - name: Install the zsh plugin autosuggestion
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git' 

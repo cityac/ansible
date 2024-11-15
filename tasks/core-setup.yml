@@ -38,13 +38,14 @@
     - neovim
     - core
 
-- name: Update the apt cache
-  apt:
-    update_cache: true
-  tags:
-    - install
-    - neovim
-    - core
+# moved to pre-tasks
+# - name: Update the apt cache
+#   apt:
+#     update_cache: true
+#   tags:
+#     - install
+#     - neovim
+#     - core
 
 - name: Install Clang
   become: true

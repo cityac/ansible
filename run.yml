@@ -8,13 +8,20 @@
     # Fix ubuntu
     git_projects: "/home/ubuntu/projects"
   pre_tasks:
-    - name: Update the apt cache
+    - name: Update the apt cache pre
       apt:
         update_cache: yes
+      become: yes
       tags: 
         - node
         - zsh
+        - install
+        - neovim
+        - core
+        - pre
   tasks:
+    - import_tasks: tasks/git-setup.yml
+    - import_tasks: tasks/debugger.yml
     - import_tasks: fem_tasks/setup-user.yml
     - import_tasks: tasks/ssh.yml
     - import_tasks: tasks/core-setup.yml
@@ -22,10 +29,8 @@
     - import_tasks: tasks/dotfiles.yml
     - import_tasks: fem_tasks/zsh.yml
     - import_tasks: fem_tasks/node.yml
-    - import_tasks: tasks/git-setup.yml
     - import_tasks: tasks/productivity-tools.yml
     - import_tasks: fem_tasks/git-projects.yml
 
-    - import_tasks: tasks/debugger.yml
 
 # ubuntu-desktop

@@ -37,14 +37,14 @@
 #   tags:
 #     - zsh
 - name: Uninstall shell
-  shell: rm -rf .oh-my-zsh
+  shell: rm -rf $HOME/.oh-my-zsh
   tags:
     - zsh
 
 
 - name: Remove existing .oh-my-zsh directory if it exists
   ansible.builtin.file:
-    path: /root/.oh-my-zsh
+    path: $HOME/.oh-my-zsh
     state: absent
   become: true
   tags:
@@ -58,7 +58,7 @@
 - name: Install the zsh plugin autosuggestion
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git' 
-    dest: '~/.oh-my-zsh/plugins/zsh-autosuggestions'
+    dest: '$HOME/.oh-my-zsh/plugins/zsh-autosuggestions'
   tags:
     - zsh
 - name: Update zshrc

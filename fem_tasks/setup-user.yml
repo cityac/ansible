@@ -5,25 +5,3 @@
 #     - user
 #     - neovim
 
-
-
-# if sudo ansible-playbook
-# ok: [localhost] => {
-#     "msg": [
-#         "USER: root",
-#         "SUDO_USER: ubuntu",
-#         "LOGNAME: root",
-#         "HOME: /root"
-#     ]
-# }
-
-# if ansible-playbook logged user than 
-# ok: [localhost] => {
-#     "msg": [
-#         "USER: ubuntu",
-#         "SUDO_USER: ubuntu",
-#         "LOGNAME: ubuntu",
-#         "HOME: /home/ubuntu"
-#     ]
-# }
-

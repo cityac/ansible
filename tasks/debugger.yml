@@ -1,22 +1,40 @@
 - name: Debugger JavaScript Exists?
   stat:
-    path: "{{ personal }}/microsoft-sucks/vscode-node-debug2"
+    path: "{{ git_projects }}/microsoft-sucks/vscode-node-debug2"
   register: node_debugger
   tags:
     - install
     - debugger
 
-- name: Debugger - JavaScript
-  ansible.builtin.git:
-    repo: 'git@github.com:microsoft/vscode-node-debug2.git'
-    dest: "{{ personal }}/microsoft-sucks/vscode-node-debug2"
-  tags:
-    - install
-    - debugger
-  when: node_debugger.stat.exists == False
+# - name: Debugger - JavaScript
+#   ansible.builtin.git:
+#     repo: 'git@github.com:microsoft/vscode-node-debug2.git'
+#     dest: "{{ git_projects }}/microsoft-sucks/vscode-node-debug2"
+#   tags:
+#     - install
+#     - debugger
+#   when: node_debugger.stat.exists == False
 
-- name: Debugger npm i and build JavaScript
-  shell: cd {{ personal }}/microsoft-sucks/vscode-node-debug2 && npm i && npm run build
+# - name: Debugger npm i and build JavaScript
+#   shell: cd {{ git_projects }}/microsoft-sucks/vscode-node-debug2 && npm i && npm run build
+#   tags:
+#     - install
+#     - debugger
+
+- name: Debug LOGNAME and USER and HOME environment variables
+  debug:
+    msg:
+      # if ansible is running with sudo USER equals "root" otherwise the user who was running ansible-playbook 
+      - "USER: {{ lookup('env', 'USER') }}"
+      # in ansible SUDO_USER always contains the user who was running ansible-playbook
+      - "SUDO_USER: {{ ansible_env.SUDO_USER }}"
+      - "LOGNAME: {{ lookup('env', 'LOGNAME') }}"
+      - "HOME: {{ lookup('env', 'HOME') }}"
   tags:
-    - install
+    - debugger
+
+- name: Ansible environment variables
+  debug:
+    var: ansible_env
+  tags:
     - debugger

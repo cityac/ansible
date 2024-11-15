@@ -1,0 +1,20 @@
+- name: Verkuerzerer exists
+  stat:
+    path: "{{ git_projects }}/url-verkuerzerer"
+  register: verkuerzerer
+  tags:
+    - install
+    - dotfiles
+    - neovim
+    - git-projects
+- name: Git Project ansible
+  ansible.builtin.git:
+    repo: 'https://github.com/cityac/url-verkuerzer.git'
+    bare: true
+    dest: "{{ git_projects }}/url-verkuerzerer"
+  tags:
+    - install
+    - dotfiles
+    - neovim
+    - git-projects
+  when: verkuerzerer.stat.exists == False

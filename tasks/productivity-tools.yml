@@ -1,27 +1,95 @@
-- name: kdenlive ppa (ppa:kdenlive/kdenlive-stable)
+- name: Define supported Ubuntu releases for Shutter
+  set_fact:
+    supported_shutter_releases:
+      - focal
+      - jammy
+      - bionic  # Add other releases as necessary
+
+- name: Add the Shutter PPA (ppa:linuxuprising/shutter) only if supported
   become: true
-  apt_repository:
-   repo: ppa:kdenlive/kdenlive-stable
-   state: present
-   update_cache: True
+  ansible.builtin.apt_repository:
+    repo: "ppa:linuxuprising/shutter"
+    state: present
+  when: ansible_distribution_release in supported_shutter_releases
   tags:
     - install
     - productivity
 
-- name: shutter ppa (ppa:linuxuprising/shutter)
+- name: Install shutter only if supported
   become: true
-  apt_repository:
-   repo: ppa:linuxuprising/shutter
-   state: present
-   update_cache: True
+  apt: 
+    name: "shutter"
+  when: ansible_distribution_release in supported_shutter_releases
   tags:
     - install
     - productivity
+
+- name: Update apt cache after adding the Shutter PPA
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_distribution_release in supported_shutter_releases
+  tags:
+    - install
+    - productivity
+
+
+- name: Add the Kdenlive PPA (ppa:kdenlive/kdenlive-stable)
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "ppa:kdenlive/kdenlive-stable"
+    state: present
+  tags:
+    - install
+    - productivity
+
+- name: Update apt cache after adding the PPA
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+  tags:
+    - install 
+    - productivity
+
+- name: Install necessary dependencies for kdenlive
+  become: true
+  ansible.builtin.apt:
+    name: [ "kdenlive-data", "frei0r-plugins", "mediainfo", "swh-plugins" ]
+    state: present
+  tags:
+    - install
+    - productivity
+
+
+- name: Install kdenlive with specific versions and allow downgrades
+  become: true
+  ansible.builtin.shell: apt-get install -y kdenlive=4:23.08.5-0ubuntu4 kdenlive-data=4:23.08.5-0ubuntu4 --allow-downgrades
+  ignore_errors: false  # Optional: Continue playbook execution even if the task fails
+  register: install_result
+
+- name: Debug output of installation
+  ansible.builtin.debug:
+    var: install_result.stdout_lines
+  tags:
+    - debugger
+    - install
+    - productivity
+
+
+
+# - name: Install specific versions of kdenlive and kdenlive-data
+#   become: true
+#   ansible.builtin.apt:
+#     name:
+#       - "kdenlive=4:23.08.5-0ubuntu4"
+#       - "kdenlive-data=4:23.08.5-0ubuntu4"
+#     state: present
 
 - name: Install packages
   become: true
   apt:
-    name: [ "tmux", "wireshark", "fzf", "kdenlive", "gimp", "xclip", "screenkey", "tldr", "ripgrep", "shutter" ]
+    name: [ "tmux", "wireshark", "fzf", "gimp", "xclip", "screenkey", "tldr", "ripgrep"]
+    install_recommends: yes
   tags:
     - install
     - productivity

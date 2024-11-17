@@ -1,0 +1,94 @@
+- name: Ensure auth_codes directory exists.
+  file:
+    dest: "{{ auth_codes_dest_path | dirname }}"
+    mode: 0777
+    state: directory
+  tags:
+    - auth_codes
+    - copy
+
+
+
+- name: Read all files in the ./auto_codes folder
+  ansible.builtin.find:
+    paths: "{{ auth_codes_source_path }}"
+    recurse: yes
+    patterns: "*"  # Adjust the pattern if needed for different file types
+  register: encrypted_files
+  tags:
+    - auth_codes
+    - copy 
+
+- name: Read all files in the ./auto_codes folder
+  ansible.builtin.find:
+    paths: "{{ auth_codes_source_path }}"
+    recurse: yes
+    patterns: "*"  # Adjust the pattern if needed for different file types
+  register: encrypted_files
+  tags:
+    - auth_codes
+    - copy 
+
+
+- name: Copy each file into dest folder
+  ansible.builtin.command:
+    cmd: "cp {{ item.path }} {{ auth_codes_dest_path}}"
+  loop: "{{ encrypted_files.files }}"
+  tags:
+    - auth_codes
+    - copy
+
+
+- name: Read all files in the ~/.auto_codes folder
+  ansible.builtin.find:
+    paths: "{{ auth_codes_dest_path }}"
+    recurse: yes
+    patterns: "*"  # Adjust the pattern if needed for different file types
+  register: encrypted_files_dest
+  tags:
+    - auth_codes
+    - copy
+    - decrypt
+
+- name: Change permissions for encrypted files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: '0777'
+  loop: "{{ encrypted_files_dest.files }}"
+  become: true
+  tags:
+    - auth_codes
+    - copy
+
+
+- name: Check if the ubuntu user can read the file
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop: "{{ encrypted_files_dest.files }}"
+  register: file_stats
+  tags:
+    - auth_codes
+    - decrypt
+
+- name: Decrypt each file in the auto_codes folder
+  ansible.builtin.command:
+    cmd: "ansible-vault decrypt {{ item.path }} --vault-password-file {{ vault_password_file }}"
+    _uses_shell: true
+  become_user: ubuntu 
+  loop: "{{ encrypted_files_dest.files }}"
+  tags:
+    - auth_codes
+    - decrypt
+
+
+- name: Set permissions for decrypted files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: '0664'  # Adjust permissions as needed
+    owner: "{{ lookup('env', 'USER') }}"   # Ensure the file is owned by the ubuntu user
+    group: "{{ lookup('env', 'USER') }}"   # Ensure the correct group ownership
+  loop: "{{ encrypted_files_dest.files }}"
+  become: true
+  tags:
+    - auth_codes
+    - decrypt

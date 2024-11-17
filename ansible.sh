@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ansible-playbook  run.yml --vault-password-file .vault --skip-tags "debugger"
+ansible-playbook  run.yml --vault-password-file .vault --skip-tags "debugger, oh-my"

@@ -3,8 +3,12 @@
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ lookup('env', 'HOME') }}/.local/.npm-global/bin"
   vars:
-    source_key: "./.ssh/id_rsa"
-    dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    vault_password_file: "{{ lookup('env', 'HOME') }}/ansible/.vault"
+    ssh_source_key: "./.ssh/id_rsa"
+    ssh_dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    # auth_codes_source_path: "./auth_codes/"
+    auth_codes_source_path: "{{ lookup('env', 'HOME') }}/ansible/auth_codes/"
+    auth_codes_dest_path: "{{ lookup('env', 'HOME') }}/.auth_codes/"
     # Fix ubuntu
     git_projects: "/home/ubuntu/projects"
   pre_tasks:
@@ -24,6 +28,7 @@
     - import_tasks: tasks/debugger.yml
     # - import_tasks: fem_tasks/setup-user.yml
     - import_tasks: tasks/ssh.yml
+    - import_tasks: fem_tasks/auth_codes.yml
     - import_tasks: tasks/core-setup.yml
     - import_tasks: tasks/nvim-setup.yml
     - import_tasks: tasks/dotfiles.yml

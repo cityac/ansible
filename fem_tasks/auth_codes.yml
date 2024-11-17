@@ -8,7 +8,6 @@
     - copy
 
 
-
 - name: Read all files in the ./auto_codes folder
   ansible.builtin.find:
     paths: "{{ auth_codes_source_path }}"
